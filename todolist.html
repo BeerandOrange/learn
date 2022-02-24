@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Todo list</title>
+        <style type="text/css">
+            .大标题{
+                background-color:rgba(221, 160, 221, 0.123);
+                height: 50px;
+                width:500px;
+                margin: 0 auto;   
+                border-radius: 5px;
+                border-color:blueviolet;
+                border-style: solid;
+                position:relative;
+            }
+
+            .h1{
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform: translate(-50%,-50%);
+                font-size: 20px;
+                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                font-weight: bolder;
+            }
+            .h2{
+                position:absolute;
+                top:60%;
+                left:85%;
+                font-size: 15px;
+                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                font-weight: lighter;
+            }
+            .box{
+                display:flex;
+                justify-content: center;
+                /* background-color: aqua; */
+            }
+
+            .输入{
+ 
+                margin:0 auto;
+                padding-top: 20px;
+                width:600px;
+                height: 490px;
+                position: relative;
+                /* background-color: red; */
+            }            
+            textarea{
+                position:absolute;
+
+                padding: 0;
+                width: 600px;
+                height: 450px;
+
+                border-color:rgba(255, 217, 0, 0.281);
+                border-radius: 5px;
+                border-width: 2px;
+
+                font-size:15px;
+
+                resize: none;
+            }
+            textarea:focus{
+                outline-color: gold;
+                /* border-color: gold; */
+            }
+            #add01{
+                position: absolute;
+                height: 30px;
+                width: 50px;
+                right: 0px;
+                bottom: 0px;
+                
+                font-size: 15px;
+                color:rgb(201, 110, 0);
+                border-color: darkorange;
+                font-weight: bolder;
+                font-family:Georgia, 'Times New Roman', Times, serif;
+                background-color: white;           
+            }
+
+            .待完成{
+                width:600px;
+                height: 490px;
+                margin: 0 auto;
+                position: relative;
+                /* display: inline; */
+                /* background-color: blue; */
+            }
+            .wait{
+                position: absolute;
+
+                padding: 0;
+                top:20px;
+                width: 600px;
+                height: 450px;
+
+                border:2px solid;
+                border-color:gold;
+                border-radius: 5px;
+
+
+                background-color:rgba(255, 217, 0, 0.212);
+
+            }
+            /* .已完成{
+                width:400px;
+                height: 490px;
+                margin: 0 auto;
+                display: inline;
+                background-color: green;
+            } */
+            .Done{
+                display: inline;
+                font-size: 15px;
+                color:rgb(201, 110, 0);
+                border-color: darkorange;
+                font-weight: bolder;
+                font-family:Georgia, 'Times New Roman', Times, serif;
+                background-color: white;
+            }
+            /* .alter{
+                display: inline;
+                font-size: 15px;
+                color:olive;
+                border-color:greenyellow;
+                font-weight: bolder;
+                font-family:Georgia, 'Times New Roman', Times, serif;
+                background-color: white;
+            } */
+            .ol{
+                border-radius: 2px;
+                border:1px;
+            }
+            .li1{
+                font-size: 15px;
+            }
+            .li2{
+                text-decoration:line-through;
+            }
+
+
+
+
+
+        </style>
+        <script>
+            function del(){
+                this.previousSibling.className="li2";
+                let time = new Date();
+                let dataYear = time.getFullYear();
+                let dataMonth = time.getMonth();
+                let data = time.getDate();
+                let datahours = time.getHours();
+                let dataMinutes = time.getMinutes()<10?'0'+time.getMinutes():time.getMinutes();
+                let dataSeconds = time.getSeconds()<10?'0'+time.getSeconds():time.getSeconds();
+
+                var x = document.createElement("span")
+                x.innerHTML=dataYear+'年'+dataMonth+'月'+data+'日：'+datahours+':'+dataMinutes+':'+dataSeconds;
+                this.parentNode.appendChild(x);
+                localStorage.setItem(dataMonth+'月'+data+'日：'+datahours+':'+dataMinutes+':'+dataSeconds,this.previousSibling.innerHTML)
+            }
+
+            window.onload=function(){
+                var inputbtn = document.getElementById("add01");
+                var ol = document.getElementById("ol");
+
+                inputbtn.onclick=function(){
+                var content = document.getElementById("input").value;
+                var li = document.createElement("li");
+                li.className="li1";
+                var btn = document.createElement("button");
+                btn.className="Done";
+                btn.innerHTML = "Done";
+                btn.onclick=del;
+                // var btnAlter = document.createElement("button");
+                // btnAlter.className="alter";
+                // btnAlter.innerHTML="Alter";
+
+
+                li.innerHTML = String(content);
+                ol.appendChild(li);
+                ol.appendChild(btn);
+                // ol.appendChild(btnAlter);
+            }
+        }
+
+
+
+
+
+        </script>
+    </head>
+    <body>
+        <div class="大标题">
+            <div class="h1">Todo list</div>
+            <div class="h2">from Lucio</div>        
+        </div>
+        <div class="box">
+            <div class="输入">
+                <textarea id="input" class="input22" wrap="physical"></textarea>
+                <button id="add01">增加</button>
+            </div>
+
+            <div class="待完成">
+                <div class="wait">
+                    <ol id = "ol">
+                    </ol>                    
+                </div>
+            </div>
+        </div>
+
+
+
+    </body>
+</html>
