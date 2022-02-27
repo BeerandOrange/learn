@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <script src="https://unpkg.com/vue@next" type="text/javascript" charset="UTF-8"></script>
+        <style>
+            #Title{
+                background-color:rgba(221, 160, 221, 0.123);
+                height: 50px;
+                width:500px;
+                margin: 0 auto;   
+                border-radius: 5px;
+                border-color:blueviolet;
+                border-style: solid;
+                /* position:relative; */
+                /* text-align: center; */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #todo-list{
+                background-color:rgba(255, 255, 0, 0.274);
+                height: auto;
+                width: 500px;
+                margin: 0 auto;
+                font-family: Georgia, 'Times New Roman', Times, serif;
+            }
+            textarea{
+                resize: none;
+                width: 490px;
+                height: 100px;
+
+                border-color:rgba(255, 217, 0, 0.281);
+                border-radius: 5px;
+                border-width: 2px;
+
+                font-size:15px;
+            }
+            textarea:focus{
+                outline-color: gold;
+                /* border-color: gold; */
+            }
+            #Add{
+                height: 30px;
+                width: 50px;
+                right: 0px;
+                bottom: 0px;
+                
+                font-size: 15px;
+                color:rgb(201, 110, 0);
+                border-color: darkorange;
+                font-weight: bolder;
+                font-family:Georgia, 'Times New Roman', Times, serif;
+                background-color: white; 
+            }
+            #addbutton{
+                height: 30px;
+                width: 100px;
+                right: 0px;
+                bottom: 0px;
+                
+                font-size: 12px;
+                color:rgb(201, 110, 0);
+                border-color: darkorange;
+                font-weight: bolder;
+                font-family:Georgia, 'Times New Roman', Times, serif;
+                background-color: white; 
+
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <!-- 组件实例 -->
+        <div id="Title">Todo list</div>
+        <div id="todo-list">
+            <form v-on:submit.prevent="addnewList">
+                <label for="new-todo">Add a todo</label>
+                <!-- <input id="new-todo" placeholder="Eg:do some practice"/> -->
+                <textarea v-model="newTodotext" id="new-todo" placeholder="Eg:do some practice" wrap="physical"></textarea>
+                <button id="Add">Add</button>
+            </form>
+            <ol>
+                <todoitem
+                    v-for="(todo, index) in todos"
+                    :key="todo.id"
+                    :title="todo.title"
+                    @remove="todos.splice(index, 1)">
+                </todoitem>
+            </ol>
+        </div>
+        
+
+        <!-- 组件模板 -->
+        <script type="text/javascript">
+            const App = Vue.createApp({
+                data(){
+                    return{
+                        newTodotext:'',
+                        todos:[
+                            {
+                                id:1,
+                                title:'do the homework'
+                            }
+                        ],
+                        newIndex:2
+                    }
+                },
+                methods:{
+                    addnewList(){
+                        this.todos.push({
+                            id:this.newIndex++,
+                            title:this.newTodotext
+                        })
+                        this.newTodotext=''
+                    }
+                }
+            }
+
+            )
+            App.component(
+                'todoitem',{
+                    template:`
+                    <li>
+                        {{title}}
+                        <button @click="$emit('remove')" id="addbutton">Remove</button>
+                    </li>
+                    `,
+                    props:['title'],
+                    emits:['remove']
+                }
+            )
+            App.mount('#todo-list')
+
+        </script>
+    </body>
+</html>
